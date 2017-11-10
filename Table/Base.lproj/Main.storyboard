@@ -79,7 +79,7 @@
                                 <navigationItem title="Timeline" id="udb-VR-gNB">
                                     <barButtonItem key="rightBarButtonItem" systemItem="add" id="5Bl-r4-6SX">
                                         <connections>
-                                            <segue destination="Eaq-5x-eNW" kind="show" id="qlX-Kc-sZP"/>
+                                            <segue destination="Eaq-5x-eNW" kind="show" identifier="newPost" id="qlX-Kc-sZP"/>
                                         </connections>
                                     </barButtonItem>
                                 </navigationItem>
