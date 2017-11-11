@@ -51,7 +51,7 @@ class TimelineController: UITableViewController {
         for user in users {
             if user["CKID"]! as! String == userRecordID!.recordName {
             //if user.recordID.recordName == userRecordID!.recordName {
-                print("Got it")
+                //print("Got it")
                 isExistingUser = true
                 self.user = user
                 return

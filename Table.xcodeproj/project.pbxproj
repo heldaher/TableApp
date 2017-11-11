@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		BBD32F9D1FB0E44F00EB1012 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD32F9C1FB0E44F00EB1012 /* AppDelegate.swift */; };
-		BBD32FA11FB0E44F00EB1012 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD32FA01FB0E44F00EB1012 /* SecondViewController.swift */; };
+		BBD32FA11FB0E44F00EB1012 /* GroupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD32FA01FB0E44F00EB1012 /* GroupController.swift */; };
 		BBD32FA41FB0E44F00EB1012 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BBD32FA21FB0E44F00EB1012 /* Main.storyboard */; };
 		BBD32FA61FB0E44F00EB1012 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BBD32FA51FB0E44F00EB1012 /* Assets.xcassets */; };
 		BBD32FA91FB0E44F00EB1012 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BBD32FA71FB0E44F00EB1012 /* LaunchScreen.storyboard */; };
@@ -16,12 +16,13 @@
 		BBD32FB51FB0EAFA00EB1012 /* TimelineController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD32FB41FB0EAFA00EB1012 /* TimelineController.swift */; };
 		BBD32FB71FB0FE0900EB1012 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD32FB61FB0FE0900EB1012 /* Post.swift */; };
 		BBD32FB91FB1488800EB1012 /* NewPostController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD32FB81FB1488800EB1012 /* NewPostController.swift */; };
+		BBD32FBB1FB78EB400EB1012 /* CreateGroupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD32FBA1FB78EB400EB1012 /* CreateGroupController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		BBD32F991FB0E44F00EB1012 /* Table.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Table.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBD32F9C1FB0E44F00EB1012 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		BBD32FA01FB0E44F00EB1012 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
+		BBD32FA01FB0E44F00EB1012 /* GroupController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupController.swift; sourceTree = "<group>"; };
 		BBD32FA31FB0E44F00EB1012 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BBD32FA51FB0E44F00EB1012 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BBD32FA81FB0E44F00EB1012 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -31,6 +32,7 @@
 		BBD32FB41FB0EAFA00EB1012 /* TimelineController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineController.swift; sourceTree = "<group>"; };
 		BBD32FB61FB0FE0900EB1012 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		BBD32FB81FB1488800EB1012 /* NewPostController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostController.swift; sourceTree = "<group>"; };
+		BBD32FBA1FB78EB400EB1012 /* CreateGroupController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGroupController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,8 +74,9 @@
 				BBD32FA51FB0E44F00EB1012 /* Assets.xcassets */,
 				BBD32FB61FB0FE0900EB1012 /* Post.swift */,
 				BBD32FB41FB0EAFA00EB1012 /* TimelineController.swift */,
-				BBD32FA01FB0E44F00EB1012 /* SecondViewController.swift */,
 				BBD32FB81FB1488800EB1012 /* NewPostController.swift */,
+				BBD32FA01FB0E44F00EB1012 /* GroupController.swift */,
+				BBD32FBA1FB78EB400EB1012 /* CreateGroupController.swift */,
 				BBD32FA21FB0E44F00EB1012 /* Main.storyboard */,
 			);
 			path = Table;
@@ -168,7 +171,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				BBD32FB51FB0EAFA00EB1012 /* TimelineController.swift in Sources */,
-				BBD32FA11FB0E44F00EB1012 /* SecondViewController.swift in Sources */,
+				BBD32FBB1FB78EB400EB1012 /* CreateGroupController.swift in Sources */,
+				BBD32FA11FB0E44F00EB1012 /* GroupController.swift in Sources */,
 				BBD32F9D1FB0E44F00EB1012 /* AppDelegate.swift in Sources */,
 				BBD32FB91FB1488800EB1012 /* NewPostController.swift in Sources */,
 				BBD32FB71FB0FE0900EB1012 /* Post.swift in Sources */,
