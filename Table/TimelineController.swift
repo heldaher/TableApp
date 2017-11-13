@@ -48,6 +48,9 @@ class TimelineController: UITableViewController {
         //<CKRecordID: 0x60800003ff00; recordName=C25510DD-CDE4-4C76-8687-8388A711EC07, zoneID=_defaultZone:__defaultOwner__>
         //why is post not showing up?
 
+        
+        //comment out for in loop below and change user name to create mock user
+        
         for user in users {
             if user["CKID"]! as! String == userRecordID!.recordName {
             //if user.recordID.recordName == userRecordID!.recordName {
@@ -88,6 +91,10 @@ class TimelineController: UITableViewController {
         //above may be tricky
         let newUser = CKRecord(recordType: "User")
         newUser["name"] = self.userName! as NSString
+        
+        //mock user code if want to create more mock users
+        //newUser["name"] = "Bill Russell Bloomberg" as NSString
+
         newUser["CKID"] = self.userRecordID!.recordName as NSString
         
         let db = container.publicCloudDatabase
