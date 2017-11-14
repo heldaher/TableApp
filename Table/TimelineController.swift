@@ -50,6 +50,8 @@ class TimelineController: UITableViewController {
 
         
         //comment out for in loop below and change user name to create mock user
+        //note that there are some issues when create fake user first
+        //issue I think is below code returns yes for first user created in array...
         
         for user in users {
             if user["CKID"]! as! String == userRecordID!.recordName {
@@ -85,17 +87,23 @@ class TimelineController: UITableViewController {
         }
     }
     
+    //delete existing users and create new users (will have to create different users) that have:
+    //1) additional field of user["isSelected"] = false as NSString
+    //2) additional field of user["groups"] = [(reference id to a group)]
+    //i.e., array of CKReferences that will originally be set to 0
+    
     func createUser() {
-        //newAuthor = ... (use code from other file)
-        //then in other file will need to assign a new post to the current user
-        //above may be tricky
+
         let newUser = CKRecord(recordType: "User")
         newUser["name"] = self.userName! as NSString
         
-        //mock user code if want to create more mock users
-        //newUser["name"] = "Bill Russell Bloomberg" as NSString
+        //mock user code if want to create more mock users (comment above and uncomment below and above loop
+        //newUser["name"] = "Bill Gates" as NSString
 
         newUser["CKID"] = self.userRecordID!.recordName as NSString
+        newUser["checked"] = "false" as NSString
+        //newUser["groups"] = [CKReference]() as NSArray
+        //will add groups later somehow
         
         let db = container.publicCloudDatabase
         
