@@ -103,6 +103,7 @@ class CreateGroupController: UIViewController {
 
     
     @IBAction func close(_ sender: Any) {
+        setSearchedUsersToUnchecked()
         dismiss(animated: true, completion: nil)
     }
     
@@ -124,7 +125,36 @@ class CreateGroupController: UIViewController {
         
         }
         
+        setSearchedUsersToUnchecked()
         dismiss(animated: true, completion: nil)
+    }
+    
+    //11/14 - want to add code here for when controller is destroyed all users are set back to false for checked
+    //b/c when load screen want all checked values as false
+    //note that if resetting user["checked"] to 0 for each user, will only need to do so for searchResults later
+    func setSearchedUsersToUnchecked() {
+        let db = container.publicCloudDatabase
+        for user in users {
+            
+            db.fetch(withRecordID: user.recordID, completionHandler: { (record, error) in
+                if let user = record, error == nil {
+                    print("got user")
+                    user["checked"] = "false" as NSString
+                    
+                    db.save(user, completionHandler: { (record, error) in
+                        if error != nil {
+                            print(error!.localizedDescription)
+                        } else {
+                            print("user checked set to false")
+                        }
+                    })
+                }
+            })
+        }
+    }
+    
+    deinit {
+        setSearchedUsersToUnchecked()
     }
     
 }
@@ -176,6 +206,7 @@ extension CreateGroupController: UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "ReturnedUserCell", for: indexPath)
         let label = cell.viewWithTag(2000) as! UILabel
+      
         
         if users.count == 0 {
             label.text = "(Nothing Found)"
@@ -200,7 +231,8 @@ extension CreateGroupController: UITableViewDelegate {
             //new problem - appears to change only when app is shut down and relauched - why not immediately?
             //because not refetching so value stays the same
             
-            //note that Henri El Daher does not show up in users
+            //need to scroll to see more users
+            //check mark does not toggle?
             
             //include fetch code to fetch just the updated user
             let db = container.publicCloudDatabase
@@ -210,54 +242,56 @@ extension CreateGroupController: UITableViewDelegate {
                 } else {
                     tappedUser = record!
                     
+                    if tappedUser["checked"] as! String == "false" {
+                        print("false")
+                        //tappedUser["checked"] = "true"
+                        
+                        db.fetch(withRecordID: tappedUser.recordID, completionHandler: { (record, error) in
+                            if let user = record, error == nil {
+                                print("got user")
+                                user["checked"] = "true" as NSString
+                                
+                                db.save(user, completionHandler: { (record, error) in
+                                    if error != nil {
+                                        print(error!.localizedDescription)
+                                    } else {
+                                        print("user updated")
+                                        DispatchQueue.main.async {
+                                            //label.text! = "√"
+                                            label.isHidden = false
+                                        }
+                                    }
+                                })
+                            }
+                        })
+                    } else {
+                        print("true")
+                        
+                        db.fetch(withRecordID: tappedUser.recordID, completionHandler: { (record, error) in
+                            if let user = record, error == nil {
+                                print("got user")
+                                user["checked"] = "false" as NSString
+                                
+                                db.save(user, completionHandler: { (record, error) in
+                                    if error != nil {
+                                        print(error!.localizedDescription)
+                                    } else {
+                                        print("user updated")
+                                        DispatchQueue.main.async {
+                                            //label.text! = ""
+                                            label.isHidden = true
+                                        }
+                                    }
+                                })
+                            }
+                        })
+                    }
+                    
+                    
                 }
             })
             
             
-            if tappedUser["checked"] as! String == "false" {
-                print("false")
-                //tappedUser["checked"] = "true"
-                
-                db.fetch(withRecordID: tappedUser.recordID, completionHandler: { (record, error) in
-                    if let user = record, error == nil {
-                        print("got user")
-                        user["checked"] = "true" as NSString
-                        
-                        db.save(user, completionHandler: { (record, error) in
-                            if error != nil {
-                                print(error!.localizedDescription)
-                            } else {
-                                print("user updated")
-                                DispatchQueue.main.async {
-                                    label.text = "√"
-                                }
-                            }
-                        })
-                    }
-                })
-            } else {
-                print("true")
-                
-                db.fetch(withRecordID: tappedUser.recordID, completionHandler: { (record, error) in
-                    if let user = record, error == nil {
-                        print("got user")
-                        user["checked"] = "false" as NSString
-                        
-                        db.save(user, completionHandler: { (record, error) in
-                            if error != nil {
-                                print(error!.localizedDescription)
-                            } else {
-                                print("user updated")
-                                DispatchQueue.main.async {
-                                    label.text = ""
-                                }
-                            }
-                        })
-                    }
-                })
-                
-      
-            }
             
         }
         
