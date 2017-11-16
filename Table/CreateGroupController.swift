@@ -11,14 +11,15 @@ import CloudKit
 
 class CreateGroupController: UIViewController {
     
+    //need to:
+    //figure out how to remove from selectd users when tapped twice (unchecked)
+    
     let container = CKContainer.default()
     var group: CKRecord?
-    
     //var searchResults = [String]()
     var users = [CKRecord]()
-    var hasSearched = false
-    
     var selectedUsers = [CKRecord]()
+    var hasSearched = false
     
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
@@ -68,7 +69,7 @@ class CreateGroupController: UIViewController {
                     print(error!.localizedDescription)
                 } else {
                     print("group saved")
-                    for user in self.users {
+                    for user in self.selectedUsers {
                         if user["checked"] as! String == "true" {
                             print("some users have checked value")
                             
@@ -134,7 +135,7 @@ class CreateGroupController: UIViewController {
     //getting client oplock error updating record (doesn't seem to matter) b/c server record newer/different
     func setSearchedUsersToUnchecked() {
         let db = container.publicCloudDatabase
-        for user in users {
+        for user in selectedUsers {
             
             db.fetch(withRecordID: user.recordID, completionHandler: { (record, error) in
                 if let user = record, error == nil {
@@ -219,7 +220,6 @@ extension CreateGroupController: UITableViewDelegate {
             //because not refetching so value stays the same
             
             //need to scroll to see more users
-            
             //include fetch code to fetch just the updated user
             let db = container.publicCloudDatabase
             db.fetch(withRecordID: tappedUser.recordID, completionHandler: { (record, error) in
@@ -232,13 +232,12 @@ extension CreateGroupController: UITableViewDelegate {
                         print("false")
                         //tappedUser["checked"] = "true"
                         
-                        
                         //note sure why need this code again, gonna try commenting out 11/16
-                        
-                        db.fetch(withRecordID: tappedUser.recordID, completionHandler: { (record, error) in
-                            if let user = record, error == nil {
-                                
-                                
+                        //issue i think is that user is modified but users array not and out of synch
+                        //maybe answer is to create a new array called selectedUsers, add new user to that array
+                 
+                            if let user = record {
+             
                                 print("got user")
                                 user["checked"] = "true" as NSString
                                 
@@ -247,6 +246,7 @@ extension CreateGroupController: UITableViewDelegate {
                                         print(error!.localizedDescription)
                                     } else {
                                         print("user updated")
+                                        self.selectedUsers.append(user)
                                         DispatchQueue.main.async {
                                             //label.text! = "√"
                                             label.isHidden = false
@@ -254,12 +254,12 @@ extension CreateGroupController: UITableViewDelegate {
                                     }
                                 })
                             }
-                        })
+                     
                     } else {
                         print("true")
                         
-                        db.fetch(withRecordID: tappedUser.recordID, completionHandler: { (record, error) in
-                            if let user = record, error == nil {
+                    
+                            if let user = record {
                                 print("got user")
                                 user["checked"] = "false" as NSString
                                 
@@ -268,6 +268,13 @@ extension CreateGroupController: UITableViewDelegate {
                                         print(error!.localizedDescription)
                                     } else {
                                         print("user updated")
+                                        //self.selectedUsers.remove(at: int)
+                                        //need to figure out which index the user is at
+                                        //is there a method that tells you index of value in table?
+                                        if let i = self.selectedUsers.index(of: record!) {
+                                            self.selectedUsers.remove(at: i)
+                                        }
+                                        
                                         DispatchQueue.main.async {
                                             //label.text! = ""
                                             label.isHidden = true
@@ -275,7 +282,7 @@ extension CreateGroupController: UITableViewDelegate {
                                     }
                                 })
                             }
-                        })
+                       
                     }
                     
                     
