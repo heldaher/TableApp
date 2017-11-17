@@ -11,8 +11,8 @@ import CloudKit
 
 class CreateGroupController: UIViewController {
     
-    //need to:
-    //figure out how to remove from selectd users when tapped twice (unchecked)
+    //Should have checked users pop to top of array? instead of listing them below table?
+    //above might 1) look better and 2) be clearer about how far down the table goes (to the end of the phone)
     
     let container = CKContainer.default()
     var group: CKRecord?

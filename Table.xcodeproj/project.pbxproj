@@ -17,6 +17,7 @@
 		BBD32FB71FB0FE0900EB1012 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD32FB61FB0FE0900EB1012 /* Post.swift */; };
 		BBD32FB91FB1488800EB1012 /* NewPostController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD32FB81FB1488800EB1012 /* NewPostController.swift */; };
 		BBD32FBB1FB78EB400EB1012 /* CreateGroupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD32FBA1FB78EB400EB1012 /* CreateGroupController.swift */; };
+		BBD32FBF1FBE64D800EB1012 /* MyGroupsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD32FBE1FBE64D800EB1012 /* MyGroupsController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		BBD32FB61FB0FE0900EB1012 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		BBD32FB81FB1488800EB1012 /* NewPostController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostController.swift; sourceTree = "<group>"; };
 		BBD32FBA1FB78EB400EB1012 /* CreateGroupController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGroupController.swift; sourceTree = "<group>"; };
+		BBD32FBE1FBE64D800EB1012 /* MyGroupsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyGroupsController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +80,7 @@
 				BBD32FA01FB0E44F00EB1012 /* GroupController.swift */,
 				BBD32FBA1FB78EB400EB1012 /* CreateGroupController.swift */,
 				BBD32FA21FB0E44F00EB1012 /* Main.storyboard */,
+				BBD32FBE1FBE64D800EB1012 /* MyGroupsController.swift */,
 			);
 			path = Table;
 			sourceTree = "<group>";
@@ -175,6 +178,7 @@
 				BBD32FA11FB0E44F00EB1012 /* GroupController.swift in Sources */,
 				BBD32F9D1FB0E44F00EB1012 /* AppDelegate.swift in Sources */,
 				BBD32FB91FB1488800EB1012 /* NewPostController.swift in Sources */,
+				BBD32FBF1FBE64D800EB1012 /* MyGroupsController.swift in Sources */,
 				BBD32FB71FB0FE0900EB1012 /* Post.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
