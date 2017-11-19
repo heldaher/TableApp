@@ -11,11 +11,12 @@ import CloudKit
 
 class MyGroupsController: UITableViewController {
     
-    //need to figure out back button
     //need to decide whether to click on group name, or see "X members" and click on that (leaning towards latter)
+    //also need to check about deleting group reference from user's groups field if group is deleted
 
     let container = CKContainer.default()
     var groups = [CKRecord]()
+    var users = [CKRecord]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,13 +54,37 @@ class MyGroupsController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "GroupNameCell", for: indexPath)
-        let label = cell.viewWithTag(3001) as! UILabel
+        let groupNameLabel = cell.viewWithTag(3001) as! UILabel
+        let numberOfMembersLabel = cell.viewWithTag(3002) as! UILabel
         
         let group = groups[indexPath.row]
         
         if let groupName = group["name"] as? String {
             
-            label.text = groupName
+            users = [CKRecord]()
+            
+            let db = container.publicCloudDatabase
+            let reference = CKReference(recordID: group.recordID, action: .none)
+            let predicate = NSPredicate(format: "%K CONTAINS %@", "groups", reference)
+            let query = CKQuery(recordType: "User", predicate: predicate)
+            
+            db.perform(query, inZoneWith: nil, completionHandler: { (results, error) in
+                if error != nil {
+                    print (error!.localizedDescription)
+                } else {
+                    if let users = results {
+                        
+                        self.users = users
+                        
+                        DispatchQueue.main.async {
+                            groupNameLabel.text = groupName
+                            numberOfMembersLabel.text = ("\(self.users.count) Members")
+                        }
+                    }
+                }
+
+            })
+            
         }
 
         return cell

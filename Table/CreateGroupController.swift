@@ -41,11 +41,13 @@ class CreateGroupController: UIViewController {
             }
         }
     }
-
+    
+    /* not necessary after embedding in navigation controller
     @IBAction func close(_ sender: Any) {
         setSearchedUsersToUnchecked()
         dismiss(animated: true, completion: nil)
     }
+    */
     
     //want to change to CKReferences - helpful Apple lets you know this
     //actually, maybe group shouldn't know about its members? But just users (children) should know about its parent

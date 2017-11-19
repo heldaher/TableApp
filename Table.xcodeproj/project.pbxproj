@@ -79,8 +79,8 @@
 				BBD32FB81FB1488800EB1012 /* NewPostController.swift */,
 				BBD32FA01FB0E44F00EB1012 /* GroupController.swift */,
 				BBD32FBA1FB78EB400EB1012 /* CreateGroupController.swift */,
-				BBD32FA21FB0E44F00EB1012 /* Main.storyboard */,
 				BBD32FBE1FBE64D800EB1012 /* MyGroupsController.swift */,
+				BBD32FA21FB0E44F00EB1012 /* Main.storyboard */,
 			);
 			path = Table;
 			sourceTree = "<group>";

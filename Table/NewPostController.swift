@@ -61,9 +61,11 @@ class NewPostController: UIViewController {
         }
     }
 
+    /* no longer necessary with navigation controller back button added
     @IBAction func close(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
+    */
     
     @IBAction func done(_ sender: Any) {
         if postContent.text != "" {
