@@ -91,7 +91,7 @@
             </objects>
             <point key="canvasLocation" x="1591.875" y="1125"/>
         </scene>
-        <!--Group Detail Controller-->
+        <!--Title-->
         <scene sceneID="H09-Uu-BRL">
             <objects>
                 <tableViewController id="Ep8-Ac-IDI" customClass="GroupDetailController" customModule="Table" customModuleProvider="target" sceneMemberID="viewController">
@@ -114,6 +114,9 @@
                             <outlet property="delegate" destination="Ep8-Ac-IDI" id="hBp-bd-of5"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Title" id="MdV-qT-zhT">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="XPZ-48-fcC"/>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mSa-f2-LKG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -145,7 +148,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0cW-Xe-4C9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3287" y="1125"/>
+            <point key="canvasLocation" x="2430" y="1873"/>
         </scene>
         <!--Create Group-->
         <scene sceneID="A7b-GX-O7u">

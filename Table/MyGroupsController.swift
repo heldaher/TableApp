@@ -94,7 +94,7 @@ class MyGroupsController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let group = groups[indexPath.row]
         
-        //performSegue(withIdentifier: "ShowGroupDetail", sender: group)
+        performSegue(withIdentifier: "ShowGroupDetail", sender: group)
     }
     */
     
@@ -102,6 +102,9 @@ class MyGroupsController: UITableViewController {
         if segue.identifier == "ShowGroupDetail" {
             //sender is a UITableViewCell, need to deal with this...
             let controller = segue.destination as! GroupDetailController
+            if let groupIndex = tableView.indexPathForSelectedRow?.row {
+                controller.group = self.groups[groupIndex]
+            }
             
             //controller.group = sender as! CKRecord
         }

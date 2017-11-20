@@ -121,9 +121,9 @@ class NewPostController: UIViewController {
         //first need to create another object though
         //perhaps create an author object
         //can do this in code
-
-        dismiss(animated: true, completion: nil)
         
+        navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
         
     }
     

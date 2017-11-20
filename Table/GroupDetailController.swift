@@ -11,20 +11,21 @@ import CloudKit
 
 class GroupDetailController: UITableViewController {
     
-    //next step (for Sunday) - check best way to segue when row is clicked (check previous tutorials)
-    //var group: CKRecord!
+    //next step (for Monday) - use group to list:
+    
+    //2) 'Members' (think of new word) button that segues to new screen with tableView of members
+    
+    //3) List timeline just of posts to the group
+    
+    //3A) this will mean 'NewPost' screen will need to allow user to specify which groups receive which posts
+    
+    //4) Connect plus button to new post just for that group
+    
+    var group: CKRecord!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        print("progress!")
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        self.title = "\(group!["name"]!)"
     }
 
     override func didReceiveMemoryWarning() {
