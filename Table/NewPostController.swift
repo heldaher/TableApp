@@ -25,6 +25,8 @@ class NewPostController: UIViewController {
         super.viewDidLoad()
         getUserName()
         
+        print("test")
+        
     }
     
     //note to self: will need to handle user denying permission, and let know necessay to use app
@@ -107,6 +109,7 @@ class NewPostController: UIViewController {
                 
                 
                 db.save(newPost, completionHandler: { (record, error) in
+                    
                     if error != nil {
                         print(error!.localizedDescription)
                     } else {

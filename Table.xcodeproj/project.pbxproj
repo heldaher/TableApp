@@ -18,6 +18,8 @@
 		BBD32FB91FB1488800EB1012 /* NewPostController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD32FB81FB1488800EB1012 /* NewPostController.swift */; };
 		BBD32FBB1FB78EB400EB1012 /* CreateGroupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD32FBA1FB78EB400EB1012 /* CreateGroupController.swift */; };
 		BBD32FBF1FBE64D800EB1012 /* MyGroupsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD32FBE1FBE64D800EB1012 /* MyGroupsController.swift */; };
+		BBD32FC11FC13A9F00EB1012 /* GroupMembersController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD32FC01FC13A9F00EB1012 /* GroupMembersController.swift */; };
+		BBD32FC31FC1567900EB1012 /* GroupDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD32FC21FC1567900EB1012 /* GroupDetailController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +37,8 @@
 		BBD32FB81FB1488800EB1012 /* NewPostController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostController.swift; sourceTree = "<group>"; };
 		BBD32FBA1FB78EB400EB1012 /* CreateGroupController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGroupController.swift; sourceTree = "<group>"; };
 		BBD32FBE1FBE64D800EB1012 /* MyGroupsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyGroupsController.swift; sourceTree = "<group>"; };
+		BBD32FC01FC13A9F00EB1012 /* GroupMembersController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupMembersController.swift; sourceTree = "<group>"; };
+		BBD32FC21FC1567900EB1012 /* GroupDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +84,8 @@
 				BBD32FA01FB0E44F00EB1012 /* GroupController.swift */,
 				BBD32FBA1FB78EB400EB1012 /* CreateGroupController.swift */,
 				BBD32FBE1FBE64D800EB1012 /* MyGroupsController.swift */,
+				BBD32FC21FC1567900EB1012 /* GroupDetailController.swift */,
+				BBD32FC01FC13A9F00EB1012 /* GroupMembersController.swift */,
 				BBD32FA21FB0E44F00EB1012 /* Main.storyboard */,
 			);
 			path = Table;
@@ -173,9 +179,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BBD32FC31FC1567900EB1012 /* GroupDetailController.swift in Sources */,
 				BBD32FB51FB0EAFA00EB1012 /* TimelineController.swift in Sources */,
 				BBD32FBB1FB78EB400EB1012 /* CreateGroupController.swift in Sources */,
 				BBD32FA11FB0E44F00EB1012 /* GroupController.swift in Sources */,
+				BBD32FC11FC13A9F00EB1012 /* GroupMembersController.swift in Sources */,
 				BBD32F9D1FB0E44F00EB1012 /* AppDelegate.swift in Sources */,
 				BBD32FB91FB1488800EB1012 /* NewPostController.swift in Sources */,
 				BBD32FBF1FBE64D800EB1012 /* MyGroupsController.swift in Sources */,
