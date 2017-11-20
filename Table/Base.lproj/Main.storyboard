@@ -314,7 +314,7 @@
                     <navigationItem key="navigationItem" title="Timeline" id="UkI-em-s3X">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="nnT-wJ-IAq">
                             <connections>
-                                <segue destination="Eaq-5x-eNW" kind="show" id="vhA-5i-MYa"/>
+                                <segue destination="Eaq-5x-eNW" kind="show" identifier="newPost" id="vhA-5i-MYa"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

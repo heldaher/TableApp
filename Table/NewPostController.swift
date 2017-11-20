@@ -24,9 +24,6 @@ class NewPostController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         getUserName()
-        
-        print("test")
-        
     }
     
     //note to self: will need to handle user denying permission, and let know necessay to use app
@@ -126,6 +123,8 @@ class NewPostController: UIViewController {
         //can do this in code
 
         dismiss(animated: true, completion: nil)
+        
+        
     }
     
     

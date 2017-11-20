@@ -237,6 +237,7 @@ class TimelineController: UITableViewController {
         if segue.identifier == "newPost" {
             let controller = segue.destination as! NewPostController
             controller.user = user
+            
         }
     }
     
