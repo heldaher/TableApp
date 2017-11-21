@@ -11,6 +11,10 @@ import CloudKit
 
 class CreateGroupController: UIViewController {
     
+    //for this controller should consider putting group members button next to add members label/button
+    //could have button not be tapable if no members have been selected, then if one or more make it tapable
+    //would segue to GroupMembersController
+    
     //Should have checked users pop to top of array? instead of listing them below table?
     //above might 1) look better and 2) be clearer about how far down the table goes (to the end of the phone)
     

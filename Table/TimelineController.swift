@@ -167,7 +167,6 @@ class TimelineController: UITableViewController {
                 }
             }
         }
-        
     }
     
     // MARK: - Table view data source

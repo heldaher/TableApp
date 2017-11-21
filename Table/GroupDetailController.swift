@@ -11,49 +11,104 @@ import CloudKit
 
 class GroupDetailController: UITableViewController {
     
-    //next step (for Monday) - use group to list:
-    
-    //2) 'Members' (think of new word) button that segues to new screen with tableView of members
-    
-    //3) List timeline just of posts to the group
-    
+    //3) List timeline just of posts to the group (right now showing all posts
     //3A) this will mean 'NewPost' screen will need to allow user to specify which groups receive which posts
     
     //4) Connect plus button to new post just for that group
     
     var group: CKRecord!
+    var posts = [CKRecord]()
+    let container = CKContainer.default()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "\(group!["name"]!)"
+        loadPosts()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    func loadPosts() {
+        posts = [CKRecord]()
+        
+        let query = CKQuery(recordType: "Post", predicate: NSPredicate(format: "TRUEPREDICATE", argumentArray: nil))
+        let db = container.publicCloudDatabase
+        db.perform(query, inZoneWith: nil) { (results:[CKRecord]?, error:Error?) in
+            if let posts = results {
+                self.posts = posts
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+        }
     }
 
     // MARK: - Table view data source
 
+    /*
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 0
     }
-
+    */
+ 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return posts.count
     }
 
-    /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: "GroupTimelineCell", for: indexPath)
+        
+        if posts.count == 0 {
+            return cell
+        }
+        
+        let post = posts[indexPath.row]
+        if let postContent = post["content"] as? String {
+            
+            let dateFormat = DateFormatter()
+            dateFormat.dateFormat = "MM/dd/yyyy"
+            let dateString = dateFormat.string(from: post.creationDate!)
+            
+            let nameLabel = cell.viewWithTag(4001) as! UILabel
+            let postLabel = cell.viewWithTag(4000) as! UILabel
+            let dateLabel = cell.viewWithTag(4002) as! UILabel
+            
+            //need to figure out how to get author["name"] from post
+            //know that post["poster"]! gives CKReference
+            
+            //nameLabel.text = " "
+            postLabel.text = postContent
+            dateLabel.text = dateString
+            
+            //note that postAuthor is a user
+            if let postAuthor = post["poster"] as? CKReference {
+                //print ("\(postAuthor.recordID)")
+                let authorID = postAuthor.recordID
+                let db = container.publicCloudDatabase
+                db.fetch(withRecordID: authorID, completionHandler: { (record, error) in
+                    if error != nil {
+                        print(error!.localizedDescription)
+                    } else {
+                        //not sure why this code seems to run twice
+                        //print("ok!")
+                        if let record = record {
+                            DispatchQueue.main.async {
+                                nameLabel.text = record["name"]! as? String
+                            }
+                            
+                        }
+                    }
+                })
+            }
+            
+        }
+        
         return cell
     }
-    */
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 88.0
+    }
 
     /*
     // Override to support conditional editing of the table view.

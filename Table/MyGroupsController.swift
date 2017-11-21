@@ -55,10 +55,9 @@ class MyGroupsController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "GroupNameCell", for: indexPath)
         let groupNameLabel = cell.viewWithTag(3001) as! UILabel
-        let numberOfMembersLabel = cell.viewWithTag(3002) as! UILabel
+        let membersButton = cell.viewWithTag(3002) as! UIButton
         
         let group = groups[indexPath.row]
-        
         if let groupName = group["name"] as? String {
             
             users = [CKRecord]()
@@ -78,7 +77,8 @@ class MyGroupsController: UITableViewController {
                         
                         DispatchQueue.main.async {
                             groupNameLabel.text = groupName
-                            numberOfMembersLabel.text = ("\(self.users.count) Members")
+                            membersButton.setTitle("\(self.users.count) Members", for: .normal)
+                            
                         }
                     }
                 }
@@ -90,7 +90,7 @@ class MyGroupsController: UITableViewController {
         return cell
     }
     
-    /*
+    /* don't need this
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let group = groups[indexPath.row]
         
@@ -100,13 +100,22 @@ class MyGroupsController: UITableViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ShowGroupDetail" {
-            //sender is a UITableViewCell, need to deal with this...
             let controller = segue.destination as! GroupDetailController
             if let groupIndex = tableView.indexPathForSelectedRow?.row {
                 controller.group = self.groups[groupIndex]
             }
+        }
+        
+        if segue.identifier == "ShowMemberDetail" {
+            let controller = segue.destination as! GroupMembersController
+            //how to get indexPathForSelectedRow?
+            let point = tableView.convert(CGPoint.zero, from: sender as! UIButton)
+            guard let indexPath = tableView.indexPathForRow(at: point) else {
+                fatalError("can't find point in tableView")
+            }
+
+            controller.group = self.groups[indexPath.row]
             
-            //controller.group = sender as! CKRecord
         }
     }
     
