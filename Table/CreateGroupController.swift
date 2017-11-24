@@ -11,6 +11,9 @@ import CloudKit
 
 class CreateGroupController: UIViewController {
     
+    //will need to reuqire user be in group they create
+    //will need to give user ability to leave group
+    
     //for this controller should consider putting group members button next to add members label/button
     //could have button not be tapable if no members have been selected, then if one or more make it tapable
     //would segue to GroupMembersController
@@ -63,12 +66,11 @@ class CreateGroupController: UIViewController {
             
             let newGroup = CKRecord(recordType: "Group")
             newGroup["name"] = groupName.text! as NSString
-            
+            newGroup["checked"] = "false" as NSString
             
             //need to have user["groups"] = [CKReference] as NSArray, how?
             //want to append reference to existing reference array (or create if doesn't already exist)
             //if doesn't exist, create by = [reference]
-            
             
             db.save(newGroup, completionHandler: { (record, error) in
                 if error != nil {
@@ -202,7 +204,6 @@ extension CreateGroupController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ReturnedUserCell", for: indexPath)
         let label = cell.viewWithTag(2000) as! UILabel
       
-        
         if users.count == 0 {
             label.text = "(Nothing Found)"
         } else {
@@ -212,7 +213,6 @@ extension CreateGroupController: UITableViewDataSource {
         
         return cell
     }
-    
 }
 
 extension CreateGroupController: UITableViewDelegate {
