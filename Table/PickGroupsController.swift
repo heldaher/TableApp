@@ -11,13 +11,17 @@ import CloudKit
 
 class PickGroupsController: UIViewController {
     
-    //next step (Friday) - need to use code from create group controller in this controller
-    //allow groups to be checked and unchecked
-    //need to move 'save post' code in done method to this controller
+    //next step (11/30) - need to fix errors, make sure group gets checked back to false before deinit
+    //then just need to change timeline so that it shows posts by group
+    //then need to add ability to add images - prof pic and images in posts
+    //then basics of aesthetics (very minimal, just make sure works on different size phones, 1-2 days of styling)
+    //the done with first draft!
     
     let container = CKContainer.default()
     var groups = [CKRecord]()
     var selectedGroups = [CKRecord]()
+    var user: CKRecord?
+    var postContent: String?
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -43,7 +47,109 @@ class PickGroupsController: UIViewController {
             }
         }
     }
-
+    
+    func setSearchedGroupsToUnchecked() {
+        let db = container.publicCloudDatabase
+        for group in selectedGroups {
+            db.fetch(withRecordID: group.recordID, completionHandler: { (record, error) in
+                if let group = record, error == nil {
+                    print("got group")
+                    group["checked"] = "false" as NSString
+                    db.save(group, completionHandler: { (record, error) in
+                        if error != nil {
+                            print(error!.localizedDescription)
+                        } else {
+                            print("group checked set to false")
+                        }
+                    })
+                }
+            })
+        }
+    }
+    
+    deinit {
+        print("deinited")
+        setSearchedGroupsToUnchecked()
+    }
+    
+    @IBAction func done(_ sender: Any) {
+        if selectedGroups.count != 0 {
+            let db = container.publicCloudDatabase
+            let newPost = CKRecord(recordType: "Post")
+            newPost["content"] = postContent! as NSString
+            
+            //post belongs to a user; post also needs to belong to groups (perhaps multiple)
+            //post belonging to many groups is like user belonging to many groups
+            //so use code from create groups but replace user with post
+            //need to decide whether to put this into the user saving block or outside
+            //but will want to make a refernece to each seleceted group (for group in selectedGroups)
+            //then for each group make a reference and save to the user
+            //i think will want to loop through first, then once complete loop save post
+            //post will have one reference to the user who posted it, and list of references to groups shared with
+            
+            //put more simply, need to have post have a reference list array
+            //add default value to existing posts?
+            
+            for group in selectedGroups {
+                let reference = CKReference(recordID: group.recordID, action: .none)
+                
+                if newPost["groups"] != nil {
+                    //way to do this is 1) fetch array, 2) store in new (mutable?) array, 3) newArray.append(newReference), 4) set old array = new array
+                    //1
+                    let groupsList = newPost["groups"] as! NSArray
+                    //2
+                    var groupsListArray = groupsList as Array
+                    //3
+                    groupsListArray.append(reference)
+                    //4
+                    newPost["groups"] = groupsListArray as NSArray
+                    
+                    //now save post
+                    db.save(newPost, completionHandler: { (record, error) in
+                        if error != nil {
+                            print(error!.localizedDescription)
+                        } else {
+                            print("group added to post")
+                        }
+                    })
+                    
+                } else {
+                    //i.e., if nil, create field with first item in array
+                    newPost["groups"] = [reference] as NSArray
+                    db.save(newPost, completionHandler: { (record, error) in
+                        if error != nil {
+                            print(error!.localizedDescription)
+                        } else {
+                            print("post's first group!")
+                        }
+                    })
+                }
+                
+            }
+            
+            
+            let author = user
+            if let author = author {
+                let reference = CKReference(recordID: author.recordID, action: CKReferenceAction.none)
+                newPost["poster"] = reference
+                
+                //should handle if CKError.notAuthenticated.raw value to tell user to login to icloud
+                let db = CKContainer.default().publicCloudDatabase
+                
+                db.save(newPost, completionHandler: { (record, error) in
+                    if error != nil {
+                        print(error!.localizedDescription)
+                    } else {
+                        print("post saved")
+                    }
+                })
+            }
+        }
+        
+        navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
+    }
+    
 }
 
 
@@ -71,6 +177,7 @@ extension PickGroupsController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("tapped")
+        //not getting changed back to false, need to fix
         if let cell = tableView.cellForRow(at: indexPath) {
             var tappedGroup = groups[indexPath.row]
             let label = cell.viewWithTag(6001) as! UILabel
@@ -84,6 +191,9 @@ extension PickGroupsController: UITableViewDelegate {
                     
                     if tappedGroup["checked"] as! String == "false" {
                         print("false")
+                        
+                        //think i already have record unwrapped from a few lines up ('tappedGroup')
+                        //so probably don't need below
                         
                         if let group = record {
                             

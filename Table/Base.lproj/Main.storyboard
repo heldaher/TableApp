@@ -387,7 +387,7 @@
                         <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="kFp-QJ-Ga6">
                             <connections>
                                 <action selector="done:" destination="Eaq-5x-eNW" id="jce-fX-brI"/>
-                                <segue destination="72l-eG-EqH" kind="show" id="Cke-HA-EV6"/>
+                                <segue destination="72l-eG-EqH" kind="show" identifier="pickGroups" id="Cke-HA-EV6"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -426,7 +426,7 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="6001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="√" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ujn-Jn-Meu">
+                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" tag="6001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="√" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ujn-Jn-Meu">
                                                     <rect key="frame" x="289" y="11" width="23" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -454,7 +454,11 @@
                         <viewLayoutGuide key="safeArea" id="HjK-1c-Nwo"/>
                     </view>
                     <navigationItem key="navigationItem" title="Pick Groups" id="sDo-nq-bEz">
-                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="Oan-9m-eVY"/>
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="Oan-9m-eVY">
+                            <connections>
+                                <action selector="done:" destination="72l-eG-EqH" id="zLz-vz-2kb"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="uOw-4P-N3b" id="2qU-rN-GvP"/>

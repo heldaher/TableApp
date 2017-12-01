@@ -56,7 +56,23 @@ class NewPostController: UIViewController {
         }
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "pickGroups" {
+            if postContent.text != "" {
+                //will want to make done button un-tapable until this is not empty
+                let controller = segue.destination as! PickGroupsController
+                controller.user = user
+                controller.postContent = postContent.text
+            } else {
+                return
+            }
+        }
+    }
+    
+    /*
     @IBAction func done(_ sender: Any) {
+        
+        /*
         if postContent.text != "" {
             let newPost = CKRecord(recordType: "Post")
             newPost["content"] = postContent.text as NSString
@@ -82,12 +98,15 @@ class NewPostController: UIViewController {
             
         }
         
-        /* don't need this now that segue-ing to group picking controller
+        // don't need this now that segue-ing to group picking controller
         navigationController?.popViewController(animated: true)
         dismiss(animated: true, completion: nil)
         */
+ 
         
     }
+    */
+    
     
     
 }

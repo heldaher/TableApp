@@ -77,6 +77,7 @@ class CreateGroupController: UIViewController {
                     print(error!.localizedDescription)
                 } else {
                     print("group saved")
+                    
                     for user in self.selectedUsers {
                         if user["checked"] as! String == "true" {
                             print("some users have checked value")
@@ -108,6 +109,7 @@ class CreateGroupController: UIViewController {
                                 //now save user
                                 db.save(user, completionHandler: { (record, error) in
                                     if error != nil {
+                                        
                                         print(error!.localizedDescription)
                                     } else {
                                         print("group added to user")
@@ -232,6 +234,7 @@ extension CreateGroupController: UITableViewDelegate {
             db.fetch(withRecordID: tappedUser.recordID, completionHandler: { (record, error) in
                 if error != nil {
                     print(error!.localizedDescription)
+                    print("line 237")
                 } else {
                     tappedUser = record!
                     
@@ -251,6 +254,7 @@ extension CreateGroupController: UITableViewDelegate {
                                 db.save(user, completionHandler: { (record, error) in
                                     if error != nil {
                                         print(error!.localizedDescription)
+                                        print("line 257")
                                     } else {
                                         print("user updated")
                                         self.selectedUsers.append(user)
@@ -273,6 +277,7 @@ extension CreateGroupController: UITableViewDelegate {
                                 db.save(user, completionHandler: { (record, error) in
                                     if error != nil {
                                         print(error!.localizedDescription)
+                                        print("line 280")
                                     } else {
                                         print("user updated")
                                         //self.selectedUsers.remove(at: int)
