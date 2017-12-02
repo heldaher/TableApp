@@ -11,8 +11,7 @@ import CloudKit
 
 class PickGroupsController: UIViewController {
     
-    //next step (11/30) - need to fix errors, make sure group gets checked back to false before deinit
-    //then just need to change timeline so that it shows posts by group
+    //need to change timeline so that it shows posts by group
     //then need to add ability to add images - prof pic and images in posts
     //then basics of aesthetics (very minimal, just make sure works on different size phones, 1-2 days of styling)
     //the done with first draft!
@@ -108,6 +107,7 @@ class PickGroupsController: UIViewController {
                     db.save(newPost, completionHandler: { (record, error) in
                         if error != nil {
                             print(error!.localizedDescription)
+                            
                         } else {
                             print("group added to post")
                         }
@@ -215,7 +215,6 @@ extension PickGroupsController: UITableViewDelegate {
                         
                     } else {
                         print("true")
-                        
                         if let group = record {
                             print("got group")
                             group["checked"] = "false" as NSString
@@ -223,11 +222,17 @@ extension PickGroupsController: UITableViewDelegate {
                             db.save(group, completionHandler: { (record, error) in
                                 if error != nil {
                                     print(error!.localizedDescription)
-                                } else {
+                                } else if let record = record {
                                     print("group updated")
-                                    if let i = self.selectedGroups.index(of: record!) {
+                                    
+                                    /*
+                                    //appears issue is that below line does not unwrap - seems that record was b/c changed
+                                    if let i = self.selectedGroups.index(of: record) {
                                         self.selectedGroups.remove(at: i)
                                     }
+                                    */
+
+                                    self.selectedGroups = self.selectedGroups.filter() { $0.recordID.recordName != record.recordID.recordName }
                                     
                                     DispatchQueue.main.async {
                                         label.isHidden = true
