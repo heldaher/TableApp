@@ -11,7 +11,6 @@ import CloudKit
 
 class PickGroupsController: UIViewController {
     
-    //need to change timeline so that it shows posts by group
     //then need to add ability to add images - prof pic and images in posts
     //then basics of aesthetics (very minimal, just make sure works on different size phones, 1-2 days of styling)
     //the done with first draft!

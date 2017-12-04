@@ -11,8 +11,13 @@ import CloudKit
 
 class TimelineController: UITableViewController {
     
+    //need to change timeline so that it shows posts by group
+    
     var posts = [CKRecord]()
     var users = [CKRecord]()
+    var allGroups = [CKRecord]()
+    var userGroups = [CKRecord]()
+    var groupReferences = [CKReference]()
     let container = CKContainer.default()
     var userName: String?
     var userRecordID: CKRecordID?
@@ -25,54 +30,10 @@ class TimelineController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        getUserName()
-        loadPosts()
         fetchUsers()
-    }
-    
-    func checkIfFirstTimeUser() {
-        //check if user has never logged on before
-        //how? get ckredord id and loop through existing user base to see
-        //print(userRecordID!)
-        //with above have userRecordID
-        //now need to loop thorugh existing user base
-        //so need to fetch all users (before then looping through
-        //so need to create a fetchUsers function
-
-        //need to check if current user (based on getUserName) exists in users array
-        //issue is that the current user's record id does not match the existing user's record ids?
-        //why? if i have the same info shouldn't it be the same recordid
-        //or i guess a different one is made each time?
-        
-        //<CKRecordID: 0x60000003cf00; recordName=_c286ece40a902a4ad2b3058a56e691d1, zoneID=_defaultZone:__defaultOwner__>
-        //<CKRecordID: 0x60800003ff00; recordName=C25510DD-CDE4-4C76-8687-8388A711EC07, zoneID=_defaultZone:__defaultOwner__>
-        //why is post not showing up?
-
-        
-        //comment out for in loop below and change user name to create mock user
-        //note that there are some issues when create fake user first
-        //issue I think is below code returns yes for first user created in array...
-        
-        for user in users {
-            if user["CKID"]! as! String == userRecordID!.recordName {
-            //if user.recordID.recordName == userRecordID!.recordName {
-                //print("Got it")
-                isExistingUser = true
-                self.user = user
-                return
-            } else {
-                print("don't got it")
-            }
-        }
-        
-        if isExistingUser == false {
-            createUser()
-        }
-        
-        //authors[0].recordID
-        
-        //see if can make user - need to look up this class
-        //if not first time user, then call 'createUser() mthod
+        getUserName()
+        //maybe call load posts from getusername?
+        loadPosts()
     }
     
     func fetchUsers() {
@@ -87,13 +48,69 @@ class TimelineController: UITableViewController {
         }
     }
     
-    //delete existing users and create new users (will have to create different users) that have:
-    //1) additional field of user["isSelected"] = false as NSString
-    //2) additional field of user["groups"] = [(reference id to a group)]
-    //i.e., array of CKReferences that will originally be set to 0
     
-    func createUser() {
+    //note to self: will need to handle user denying permission, and let know necessay to use app
+    func getUserName() {
+        container.requestApplicationPermission(.userDiscoverability) { (status, error) in
+            if error != nil {
+                print("permission error")
+            } else {
+                self.container.fetchUserRecordID { (recordId, error) in
+                    if error != nil {
+                        print("handle error")
+                    } else {
+                        self.userRecordID = recordId
+                        self.container.discoverUserIdentity(withUserRecordID: recordId!, completionHandler: { (userInfo, error) in
+                            if error != nil {
+                                print("handle other error")
+                            } else {
+                                self.userName = (userInfo?.nameComponents?.givenName)! + " " + (userInfo?.nameComponents?.familyName)! as String
+                                
+                                //self.userRecordID = userInfo!.userRecordID
+                                self.checkIfFirstTimeUser()
+                                //self.createUser()
+                                
+                                DispatchQueue.main.async {
+                                    self.tableView.reloadData()
+                                }
+                            }
+                        })
+                    }
+                }
+            }
+        }
+    }
+    
+    
+    func checkIfFirstTimeUser() {
 
+        //comment out for in loop below and change user name to create mock user
+        //note that there are some issues when create fake user first
+        //issue I think is below code returns yes for first user created in array...
+        
+        for user in users {
+            if user["CKID"]! as! String == userRecordID!.recordName {
+            //if user.recordID.recordName == userRecordID!.recordName {
+                //print("Got it")
+                isExistingUser = true
+                self.user = user
+                //return
+                
+                //new 12/1 code
+                getUserGroups()
+            } else {
+                print("don't got it")
+            }
+        }
+        
+        if isExistingUser == false {
+            createUser()
+        }
+
+    }
+    
+
+    func createUser() {
         let newUser = CKRecord(recordType: "User")
         newUser["name"] = self.userName! as NSString
         
@@ -113,50 +130,26 @@ class TimelineController: UITableViewController {
             } else {
                 print("user saved")
                 self.user = record
+                
+                //new 12/1 code
+                self.getUserGroups()
             }
         })
     }
     
-    //<CKRecordID: 0x604000025d20; recordName=_c286ece40a902a4ad2b3058a56e691d1, zoneID=_defaultZone:__defaultOwner__>
-    
-    //note to self: will need to handle user denying permission, and let know necessay to use app
-    func getUserName() {
-        container.requestApplicationPermission(.userDiscoverability) { (status, error) in
-            if error != nil {
-                print("permission error")
-            } else {
-                self.container.fetchUserRecordID { (recordId, error) in
-                    if error != nil {
-                        print("handle error")
-                    } else {
-                        self.userRecordID = recordId
-                        self.container.discoverUserIdentity(withUserRecordID: recordId!, completionHandler: { (userInfo, error) in
-                            if error != nil {
-                                print("handle other error")
-                            } else {
-                                self.userName = (userInfo?.nameComponents?.givenName)! + " " + (userInfo?.nameComponents?.familyName)! as String
-                                //print("CK User Name: " + self.userName!)
-                                //print("\(self.givenName)")
-                                
-                                //self.userRecordID = userInfo!.userRecordID
-                                self.checkIfFirstTimeUser()
-                                //self.createUser()
-                                
-                                DispatchQueue.main.async {
-                                    self.tableView.reloadData()
-                                }
-                            }
-                        })
-                    }
-                }
-            }
-        }
-    }
-    
-    
+    //before calling edited loadposts, will need to have the current user
     func loadPosts() {
         posts = [CKRecord]()
 
+        //first get all the groups of the user
+        //so will want a fetchGroups method
+        //then once have list of groups:
+        //loop through each post
+        //during each post loop, loop through each reference:
+        //during each groups reference loop, loop through the groups array and check if equal
+        //if so, stop and append post to post array
+        
+        //above seems too much? see if there is a predicate for 'contains'
         let query = CKQuery(recordType: "Post", predicate: NSPredicate(format: "TRUEPREDICATE", argumentArray: nil))
         let db = container.publicCloudDatabase
         db.perform(query, inZoneWith: nil) { (results:[CKRecord]?, error:Error?) in
@@ -167,6 +160,38 @@ class TimelineController: UITableViewController {
                 }
             }
         }
+    }
+    
+    //for each group in user["groups"], append to userGroups array
+    func getUserGroups() {
+        //LIST_CONTAINS cannot be applied with filter value type REFERENCE_LIST
+        posts = [CKRecord]()
+        
+        let db = container.publicCloudDatabase
+        let groupReferences = user!["groups"]! as! NSArray
+        //maybe want to loop each reference and then use reference/predicate code for GMC controller
+        
+        for group in groupReferences {
+            let reference = group as! CKReference
+            let predicate = NSPredicate(format: "%K CONTAINS %@", "groups", reference)
+            let query = CKQuery(recordType: "Post", predicate: predicate)
+            db.perform(query, inZoneWith: nil, completionHandler: { (results, error) in
+                if error != nil {
+                    print (error!.localizedDescription)
+                } else {
+                    
+                    if let posts = results {
+                        self.posts = posts
+                        
+                        DispatchQueue.main.async {
+                            self.tableView.reloadData()
+                        }
+                    }
+                }
+                
+            })
+        }
+
     }
     
     // MARK: - Table view data source
