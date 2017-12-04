@@ -26,6 +26,7 @@ class GroupDetailController: UITableViewController {
         loadPosts()
     }
     
+    /*
     func loadPosts() {
         posts = [CKRecord]()
         
@@ -40,6 +41,35 @@ class GroupDetailController: UITableViewController {
             }
         }
     }
+    */
+    
+    func loadPosts() {
+        //LIST_CONTAINS cannot be applied with filter value type REFERENCE_LIST
+        posts = [CKRecord]()
+        
+        let db = container.publicCloudDatabase
+        let reference = CKReference(recordID: group.recordID, action: .none)
+        let predicate = NSPredicate(format: "%K CONTAINS %@", "groups", reference)
+        let query = CKQuery(recordType: "Post", predicate: predicate)
+        
+        db.perform(query, inZoneWith: nil, completionHandler: { (results, error) in
+            if error != nil {
+                print (error!.localizedDescription)
+            } else {
+                if let posts = results {
+                    self.posts = posts
+                    
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
+                }
+            }
+            
+        })
+        
+    }
+    
+    
 
     // MARK: - Table view data source
 

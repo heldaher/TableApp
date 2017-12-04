@@ -11,7 +11,8 @@ import CloudKit
 
 class TimelineController: UITableViewController {
     
-    //need to change timeline so that it shows posts by group
+    //need to figure out why it shouws different user upon builds (though should be ok for actual run)
+    //need to figure it why it loads several times (though bad but fine for MVP)
     
     var posts = [CKRecord]()
     var users = [CKRecord]()
@@ -31,9 +32,9 @@ class TimelineController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchUsers()
-        getUserName()
+        //getUserName()
         //maybe call load posts from getusername?
-        loadPosts()
+        //loadPosts()
     }
     
     func fetchUsers() {
@@ -44,6 +45,8 @@ class TimelineController: UITableViewController {
         db.perform(query, inZoneWith: nil) { (results:[CKRecord]?, error:Error?) in
             if let users = results {
                 self.users = users
+                //12/1 code below
+                self.getUserName()
             }
         }
     }
@@ -70,9 +73,11 @@ class TimelineController: UITableViewController {
                                 self.checkIfFirstTimeUser()
                                 //self.createUser()
                                 
+                                /* 12/1 comment out
                                 DispatchQueue.main.async {
                                     self.tableView.reloadData()
                                 }
+                                */
                             }
                         })
                     }
@@ -97,7 +102,7 @@ class TimelineController: UITableViewController {
                 //return
                 
                 //new 12/1 code
-                getUserGroups()
+                loadPosts()
             } else {
                 print("don't got it")
             }
@@ -132,12 +137,13 @@ class TimelineController: UITableViewController {
                 self.user = record
                 
                 //new 12/1 code
-                self.getUserGroups()
+                self.loadPosts()
             }
         })
     }
     
     //before calling edited loadposts, will need to have the current user
+    /*
     func loadPosts() {
         posts = [CKRecord]()
 
@@ -161,9 +167,10 @@ class TimelineController: UITableViewController {
             }
         }
     }
+    */
     
     //for each group in user["groups"], append to userGroups array
-    func getUserGroups() {
+    func loadPosts() {
         //LIST_CONTAINS cannot be applied with filter value type REFERENCE_LIST
         posts = [CKRecord]()
         
@@ -181,6 +188,7 @@ class TimelineController: UITableViewController {
                 } else {
                     
                     if let posts = results {
+                        
                         self.posts = posts
                         
                         DispatchQueue.main.async {
