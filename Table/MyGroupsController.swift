@@ -18,10 +18,75 @@ class MyGroupsController: UITableViewController {
     var groups = [CKRecord]()
     var users = [CKRecord]()
     
+    var userRecordID: CKRecordID?
+    var userName: String?
+    var user: CKRecord?
+    var userGroups = [CKRecord]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchGroups()
+        fetchUsers()
+        //fetchGroups()
     }
+    
+    // ALL TO GET CURRENT USER - need to refactor later
+    
+    func fetchUsers() {
+        users = [CKRecord]()
+        
+        let query = CKQuery(recordType: "User", predicate: NSPredicate(format: "TRUEPREDICATE", argumentArray: nil))
+        let db = container.publicCloudDatabase
+        db.perform(query, inZoneWith: nil) { (results:[CKRecord]?, error:Error?) in
+            if let users = results {
+                self.users = users
+                self.getUserName()
+            }
+        }
+    }
+    
+    
+    //note to self: will need to handle user denying permission, and let know necessay to use app
+    func getUserName() {
+        container.requestApplicationPermission(.userDiscoverability) { (status, error) in
+            if error != nil {
+                print("permission error")
+            } else {
+                self.container.fetchUserRecordID { (recordId, error) in
+                    if error != nil {
+                        print("handle error")
+                    } else {
+                        self.userRecordID = recordId
+                        self.container.discoverUserIdentity(withUserRecordID: recordId!, completionHandler: { (userInfo, error) in
+                            if error != nil {
+                                print("handle other error")
+                            } else {
+                                self.userName = (userInfo?.nameComponents?.givenName)! + " " + (userInfo?.nameComponents?.familyName)! as String
+                                self.getUser()
+                            }
+                        })
+                    }
+                }
+            }
+        }
+    }
+    
+    
+    func getUser() {
+        
+        for user in users {
+            if user["CKID"]! as! String == userRecordID!.recordName {
+                self.user = user
+                fetchGroups()
+                return
+            } else {
+                print("don't got it")
+            }
+        }
+
+    }
+    
+    // END OF GETTING CURRENT USER
+    
     
     func fetchGroups() {
         groups = [CKRecord]()
@@ -31,12 +96,38 @@ class MyGroupsController: UITableViewController {
         db.perform(query, inZoneWith: nil) { (results:[CKRecord]?, error:Error?) in
             if let groups = results {
                 self.groups = groups
+                self.fetchUserGroups()
+                /*
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
+                */
             }
         }
     }
+    
+    
+    func fetchUserGroups() {
+        userGroups = [CKRecord]()
+        
+        let groupReferences = user!["groups"]! as! NSArray
+        
+        for group in groupReferences {
+            let reference = group as! CKReference
+            
+            for alsoGroup in groups {
+                
+                if reference.recordID.recordName == alsoGroup.recordID.recordName {
+                    self.userGroups.append(alsoGroup)
+                }
+            }
+        }
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
+    
 
     // MARK: - Table view data source
 
@@ -49,7 +140,7 @@ class MyGroupsController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //print("\(groups.count)")
-        return groups.count
+        return userGroups.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -57,7 +148,7 @@ class MyGroupsController: UITableViewController {
         let groupNameLabel = cell.viewWithTag(3001) as! UILabel
         let membersButton = cell.viewWithTag(3002) as! UIButton
         
-        let group = groups[indexPath.row]
+        let group = userGroups[indexPath.row]
         if let groupName = group["name"] as? String {
             
             users = [CKRecord]()
@@ -102,7 +193,7 @@ class MyGroupsController: UITableViewController {
         if segue.identifier == "ShowGroupDetail" {
             let controller = segue.destination as! GroupDetailController
             if let groupIndex = tableView.indexPathForSelectedRow?.row {
-                controller.group = self.groups[groupIndex]
+                controller.group = self.userGroups[groupIndex]
             }
         }
         
@@ -114,7 +205,7 @@ class MyGroupsController: UITableViewController {
                 fatalError("can't find point in tableView")
             }
 
-            controller.group = self.groups[indexPath.row]
+            controller.group = self.userGroups[indexPath.row]
             
         }
     }

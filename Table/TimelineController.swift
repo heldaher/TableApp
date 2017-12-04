@@ -103,6 +103,7 @@ class TimelineController: UITableViewController {
                 
                 //new 12/1 code
                 loadPosts()
+                return
             } else {
                 print("don't got it")
             }
