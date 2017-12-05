@@ -187,11 +187,13 @@ class TimelineController: UITableViewController {
                 if error != nil {
                     print (error!.localizedDescription)
                 } else {
-                    
-                    if let posts = results {
-                        
-                        self.posts = posts
-                        
+                    if let newPosts = results {
+                        for newPost in newPosts {
+                            if !self.posts.contains(where: { post in post.recordID.recordName == newPost.recordID.recordName}) {
+                                self.posts.append(newPost)
+                            }
+                        }
+
                         DispatchQueue.main.async {
                             self.tableView.reloadData()
                         }
@@ -267,6 +269,7 @@ class TimelineController: UITableViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         //newPost
+        
         if segue.identifier == "newPost" {
             let controller = segue.destination as! NewPostController
             controller.user = user

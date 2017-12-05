@@ -10,6 +10,8 @@ import UIKit
 import CloudKit
 
 class NewPostController: UIViewController {
+    
+    //need to add ability to post links, pictures, videos
 
     @IBOutlet weak var postContent: UITextView!
     
