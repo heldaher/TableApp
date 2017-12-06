@@ -20,6 +20,7 @@ class PickGroupsController: UIViewController {
     var selectedGroups = [CKRecord]()
     var user: CKRecord?
     var postContent: String?
+    var userGroups = [CKRecord]()
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -39,10 +40,32 @@ class PickGroupsController: UIViewController {
             }
             if let groups = results {
                 self.groups = groups
+                self.fetchUserGroups()
+                
+                /*
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
+                */
             }
+        }
+    }
+    
+    ///12/5
+    func fetchUserGroups() {
+        userGroups = [CKRecord]()
+        let groupReferences = user!["groups"]! as! NSArray
+        for group in groupReferences {
+            let reference = group as! CKReference
+            for alsoGroup in groups {
+                if reference.recordID.recordName == alsoGroup.recordID.recordName {
+                    self.userGroups.append(alsoGroup)
+                }
+            }
+        }
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
         }
     }
     
@@ -145,7 +168,8 @@ class PickGroupsController: UIViewController {
             }
         }
         
-        navigationController?.popViewController(animated: true)
+        //navigationController?.popViewController(animated: true)
+        navigationController?.popToRootViewController(animated: true)
         dismiss(animated: true, completion: nil)
     }
     
@@ -154,17 +178,17 @@ class PickGroupsController: UIViewController {
 
 extension PickGroupsController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return groups.count
+        return userGroups.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "GroupCell", for: indexPath)
         let label = cell.viewWithTag(6000) as! UILabel
         
-        if groups.count == 0 {
+        if userGroups.count == 0 {
             label.text = "(Nothing Found)"
         } else {
-            let group = groups[indexPath.row]
+            let group = userGroups[indexPath.row]
             label.text = group["name"] as? String
         }
         
@@ -178,7 +202,7 @@ extension PickGroupsController: UITableViewDelegate {
         print("tapped")
         //not getting changed back to false, need to fix
         if let cell = tableView.cellForRow(at: indexPath) {
-            var tappedGroup = groups[indexPath.row]
+            var tappedGroup = userGroups[indexPath.row]
             let label = cell.viewWithTag(6001) as! UILabel
             
             let db = container.publicCloudDatabase

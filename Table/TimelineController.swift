@@ -37,6 +37,12 @@ class TimelineController: UITableViewController {
         //loadPosts()
     }
     
+    //12/2 new code
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fetchUsers()
+    }
+    
     func fetchUsers() {
         users = [CKRecord]()
         
