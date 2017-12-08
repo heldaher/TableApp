@@ -59,9 +59,13 @@ class GroupDetailController: UITableViewController {
                 if let posts = results {
                     self.posts = posts
                     
+                    /*
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
                     }
+                    */
+                    self.showPosts()
+                
                 }
             }
             
@@ -69,7 +73,13 @@ class GroupDetailController: UITableViewController {
         
     }
     
-    
+    func showPosts() {
+        posts = posts.sorted(by: {$0.creationDate! > $1.creationDate!})
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
 
     // MARK: - Table view data source
 
