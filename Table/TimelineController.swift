@@ -206,15 +206,29 @@ class TimelineController: UITableViewController {
                             }
                         }
 
+                        /*
                         DispatchQueue.main.async {
                             self.tableView.reloadData()
                         }
+                        */
+                        
+                        self.showPosts()
+                        
                     }
                 }
                 
             })
         }
 
+        //showPosts()
+    }
+    
+    func showPosts() {
+        posts = posts.sorted(by: {$0.creationDate! > $1.creationDate!})
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
     
     // MARK: - Table view data source
