@@ -28,10 +28,16 @@ class TimelineController: UITableViewController {
     var user: CKRecord?
     
     //let db = CKContainer.default().publicCloudDatabase
+    @objc func refresh() {
+        loadPosts()
+        self.refreshControl?.endRefreshing()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchUsers()
+        self.refreshControl?.addTarget(self, action: #selector(refresh), for: UIControlEvents.valueChanged)
+        
         //getUserName()
         //maybe call load posts from getusername?
         //loadPosts()
