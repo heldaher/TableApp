@@ -254,6 +254,7 @@ class TimelineController: UITableViewController {
             let nameLabel = cell.viewWithTag(1001) as! UILabel
             let postLabel = cell.viewWithTag(1000) as! UILabel
             let dateLabel = cell.viewWithTag(1002) as! UILabel
+            let photoImage = cell.viewWithTag(1003) as! UIImageView
             
             //need to figure out how to get author["name"] from post
             //know that post["poster"]! gives CKReference
@@ -261,6 +262,14 @@ class TimelineController: UITableViewController {
             //nameLabel.text = " "
             postLabel.text = postContent
             dateLabel.text = dateString
+            
+            //image add attempt
+            if let photo = post["photo"] {
+                //why does this run so many times?
+                print("need to see what's here")
+                let img = photo as? CKAsset
+                photoImage.image = UIImage(contentsOfFile: img!.fileURL.path)
+            }
         
             //note that postAuthor is a user
             if let postAuthor = post["poster"] as? CKReference {
@@ -289,7 +298,9 @@ class TimelineController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 88.0
+        //return 88.0
+        return 200.0
+        //if image then 300 else 88
     }
     
     
