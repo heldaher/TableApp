@@ -21,6 +21,7 @@ class PickGroupsController: UIViewController {
     var user: CKRecord?
     var postContent: String?
     var userGroups = [CKRecord]()
+    var postImage: UIImageView?
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -98,6 +99,22 @@ class PickGroupsController: UIViewController {
             let db = container.publicCloudDatabase
             let newPost = CKRecord(recordType: "Post")
             newPost["content"] = postContent! as NSString
+            
+            //new 12/9 code
+            if let postImage = postImage {
+                if let image = postImage.image {
+                    
+                    let data = UIImagePNGRepresentation(image)
+                    let url = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(NSUUID().uuidString+".dat")
+                    do {
+                        try data!.write(to: url!, options: [])
+                    } catch let e as NSError {
+                        print("Error! \(e)")
+                        return
+                    }
+                    newPost["photo"] = CKAsset(fileURL: url!)
+                }
+            }
             
             //post belongs to a user; post also needs to belong to groups (perhaps multiple)
             //post belonging to many groups is like user belonging to many groups
