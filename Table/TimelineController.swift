@@ -14,6 +14,11 @@ class TimelineController: UITableViewController {
     //need to figure out why it shouws different user upon builds (though should be ok for actual run)
     //need to figure it why it loads several times (though bad but fine for MVP)
     
+    //1) Have images show more like square than rectangle
+    //1B) Why is picture added when no image is added?
+    //2) Have row height depend on whether or not there is a picture
+    //3) Make each post look nicer by borders
+    
     var posts = [CKRecord]()
     var users = [CKRecord]()
     var allGroups = [CKRecord]()
@@ -41,6 +46,10 @@ class TimelineController: UITableViewController {
         //getUserName()
         //maybe call load posts from getusername?
         //loadPosts()
+        
+        //self.tableView.estimatedRowHeight = 188.0
+        //self.tableView.rowHeight = UITableViewAutomaticDimension
+        
     }
     
     //12/2 new code
@@ -182,6 +191,7 @@ class TimelineController: UITableViewController {
     }
     */
     
+    //12/13 - need to figure out why photos added where no post has no photo
     //for each group in user["groups"], append to userGroups array
     func loadPosts() {
         //LIST_CONTAINS cannot be applied with filter value type REFERENCE_LIST
@@ -263,6 +273,17 @@ class TimelineController: UITableViewController {
             postLabel.text = postContent
             dateLabel.text = dateString
             
+            photoImage.image = nil
+            
+            //image add 12/13
+            if post["photo"] != nil {
+                let photo = post["photo"]
+                //print("need to see what's here")
+                let img = photo as? CKAsset
+                photoImage.image = UIImage(contentsOfFile: img!.fileURL.path)
+            }
+            
+            /*
             //image add attempt
             if let photo = post["photo"] {
                 //why does this run so many times?
@@ -270,6 +291,7 @@ class TimelineController: UITableViewController {
                 let img = photo as? CKAsset
                 photoImage.image = UIImage(contentsOfFile: img!.fileURL.path)
             }
+            */
         
             //note that postAuthor is a user
             if let postAuthor = post["poster"] as? CKReference {
@@ -297,9 +319,10 @@ class TimelineController: UITableViewController {
         return cell
     }
     
+    
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         //return 88.0
-        return 200.0
+        return 320.0
         //if image then 300 else 88
     }
     

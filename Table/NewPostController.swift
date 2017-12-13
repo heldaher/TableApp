@@ -34,6 +34,8 @@ class NewPostController: UIViewController, UIImagePickerControllerDelegate, UINa
         postContent.becomeFirstResponder()
         
         picker.delegate = self
+        
+        //postImage = nil
     }
     
     //note to self: will need to handle user denying permission, and let know necessay to use app
