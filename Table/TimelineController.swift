@@ -14,10 +14,10 @@ class TimelineController: UITableViewController {
     //need to figure out why it shouws different user upon builds (though should be ok for actual run)
     //need to figure it why it loads several times (though bad but fine for MVP)
     
-    //1) Have images show more like square than rectangle
-    //1B) Why is picture added when no image is added?
+    //1) Make text box size dynamic
     //2) Have row height depend on whether or not there is a picture
     //3) Make each post look nicer by borders
+    //4) Change date so - current date if not today, time if today
     
     var posts = [CKRecord]()
     var users = [CKRecord]()
@@ -47,8 +47,8 @@ class TimelineController: UITableViewController {
         //maybe call load posts from getusername?
         //loadPosts()
         
-        //self.tableView.estimatedRowHeight = 188.0
-        //self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.tableView.estimatedRowHeight = 200.0
+        self.tableView.rowHeight = UITableViewAutomaticDimension
         
     }
     
@@ -319,12 +319,13 @@ class TimelineController: UITableViewController {
         return cell
     }
     
-    
+    /*
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         //return 88.0
-        return 320.0
+        return 352.0
         //if image then 300 else 88
     }
+    */
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
