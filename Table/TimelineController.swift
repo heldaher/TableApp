@@ -11,10 +11,13 @@ import CloudKit
 
 class TimelineController: UITableViewController {
     
+    //if permission error, let user know need to sign into iCloud
+    //add link
+    //top color scheme
+    
     //need to figure out why it shouws different user upon builds (though should be ok for actual run)
     //need to figure it why it loads several times (though bad but fine for MVP)
-    
-    //4) Change date so - current date if not today, time if today
+    //change date so - current date if not today, time if today
     
     var posts = [CKRecord]()
     var users = [CKRecord]()
