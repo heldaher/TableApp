@@ -11,6 +11,9 @@ import CloudKit
 
 class GroupDetailController: UITableViewController {
     
+    //12/14
+    //Change timeline so to match changes to timeline controller
+    
     //3) List timeline just of posts to the group (right now showing all posts
     //3A) this will mean 'NewPost' screen will need to allow user to specify which groups receive which posts
     
@@ -24,6 +27,9 @@ class GroupDetailController: UITableViewController {
         super.viewDidLoad()
         self.title = "\(group!["name"]!)"
         loadPosts()
+        
+        self.tableView.estimatedRowHeight = 200.0
+        self.tableView.rowHeight = UITableViewAutomaticDimension
     }
     
     /*
@@ -112,6 +118,7 @@ class GroupDetailController: UITableViewController {
             let nameLabel = cell.viewWithTag(4001) as! UILabel
             let postLabel = cell.viewWithTag(4000) as! UILabel
             let dateLabel = cell.viewWithTag(4002) as! UILabel
+            let photoImage = cell.viewWithTag(4003) as! UIImageView
             
             //need to figure out how to get author["name"] from post
             //know that post["poster"]! gives CKReference
@@ -119,6 +126,13 @@ class GroupDetailController: UITableViewController {
             //nameLabel.text = " "
             postLabel.text = postContent
             dateLabel.text = dateString
+            
+            photoImage.image = nil
+            if post["photo"] != nil {
+                let photo = post["photo"]
+                let img = photo as? CKAsset
+                photoImage.image = UIImage(contentsOfFile: img!.fileURL.path)
+            }
             
             //note that postAuthor is a user
             if let postAuthor = post["poster"] as? CKReference {
@@ -146,9 +160,11 @@ class GroupDetailController: UITableViewController {
         return cell
     }
     
+    /*
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 88.0
     }
+    */
 
     /*
     // Override to support conditional editing of the table view.

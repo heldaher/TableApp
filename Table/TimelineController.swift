@@ -14,9 +14,6 @@ class TimelineController: UITableViewController {
     //need to figure out why it shouws different user upon builds (though should be ok for actual run)
     //need to figure it why it loads several times (though bad but fine for MVP)
     
-    //1) Make text box size dynamic
-    //2) Have row height depend on whether or not there is a picture
-    //3) Make each post look nicer by borders
     //4) Change date so - current date if not today, time if today
     
     var posts = [CKRecord]()
