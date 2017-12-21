@@ -19,8 +19,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aSN-FZ-HMY">
-                                <rect key="frame" x="114" y="214" width="92" height="30"/>
+                                <rect key="frame" x="109" y="214" width="102" height="30"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="102" id="gec-un-Plt"/>
+                                </constraints>
                                 <state key="normal" title="Create Group">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
@@ -34,8 +37,11 @@
                                 </connections>
                             </button>
                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="05e-Dw-VYL">
-                                <rect key="frame" x="123" y="371" width="75" height="30"/>
+                                <rect key="frame" x="118" y="371" width="84" height="30"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="84" id="eDF-My-wQq"/>
+                                </constraints>
                                 <state key="normal" title="My Groups">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -51,11 +57,9 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="05e-Dw-VYL" firstAttribute="top" secondItem="aSN-FZ-HMY" secondAttribute="bottom" constant="127" id="MTm-Mq-My5"/>
-                            <constraint firstItem="O1u-W8-tvY" firstAttribute="trailing" secondItem="aSN-FZ-HMY" secondAttribute="trailing" constant="114" id="QiC-3x-i2f"/>
-                            <constraint firstItem="05e-Dw-VYL" firstAttribute="leading" secondItem="O1u-W8-tvY" secondAttribute="leading" constant="123" id="ThL-6Y-HIn"/>
-                            <constraint firstItem="O1u-W8-tvY" firstAttribute="trailing" secondItem="05e-Dw-VYL" secondAttribute="trailing" constant="122" id="dTH-2n-KBu"/>
-                            <constraint firstItem="aSN-FZ-HMY" firstAttribute="leading" secondItem="O1u-W8-tvY" secondAttribute="leading" constant="114" id="uzG-gl-dn6"/>
+                            <constraint firstItem="05e-Dw-VYL" firstAttribute="centerX" secondItem="QS5-Rx-YEW" secondAttribute="centerX" id="I6M-U7-bjK"/>
+                            <constraint firstItem="05e-Dw-VYL" firstAttribute="top" secondItem="aSN-FZ-HMY" secondAttribute="bottom" constant="127" id="UqD-Py-oSb"/>
+                            <constraint firstItem="aSN-FZ-HMY" firstAttribute="centerX" secondItem="QS5-Rx-YEW" secondAttribute="centerX" id="kDz-u9-ovj"/>
                             <constraint firstItem="aSN-FZ-HMY" firstAttribute="top" secondItem="O1u-W8-tvY" secondAttribute="top" constant="150" id="yYc-ig-3a4"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="O1u-W8-tvY"/>
