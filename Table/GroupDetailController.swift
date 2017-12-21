@@ -11,14 +11,6 @@ import CloudKit
 
 class GroupDetailController: UITableViewController {
     
-    //12/14
-    //Change timeline so to match changes to timeline controller
-    
-    //3) List timeline just of posts to the group (right now showing all posts
-    //3A) this will mean 'NewPost' screen will need to allow user to specify which groups receive which posts
-    
-    //4) Connect plus button to new post just for that group
-    
     var group: CKRecord!
     var posts = [CKRecord]()
     let container = CKContainer.default()
